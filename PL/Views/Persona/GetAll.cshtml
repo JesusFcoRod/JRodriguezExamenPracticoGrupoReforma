@@ -1,0 +1,51 @@
+﻿@model ML.Persona
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Personas Registradas</h2>
+
+<div style="float:right;">
+    @Html.ActionLink("Agregar", "Formulario", "Persona", htmlAttributes: new { @class = "btn btn-success" })
+</div>
+
+<br />
+<table class="table table-hover table-striped table-bordered table-responsive" id="table_usuarios">
+    <thead>
+        <tr class="table-secondary">
+            <td>Editar</td>
+            <td style="display :none;">id</td>
+            <td>Nombre</td>
+            <td>Direccion</td>
+            <td>Correo</td>
+            <td>Edad</td>
+            <td>Habilidad Principal</td>
+            <td>Habilidad Secundaria</td>
+            <td>Tipo Persona</td>
+            <td>Eliminar</td>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (ML.Persona persona in Model.Personas)
+        {
+            <tr>
+                <td style="text-align: center; vertical-align: middle;"><a class="btn btn-warning glyphicon  glyphicon glyphicon-cog" href="@Url.Action("Formulario", "Persona", new { IdPersona = persona.IdPersona})"><i class="bi bi-pencil-square" style="color: ivory"></i></a></td>
+                <td style="display :none;">@persona.IdPersona </td>
+                <td style="text-align: center; vertical-align: middle;">@persona.Nombre</td>
+                <td style="text-align: center; vertical-align: middle;">@persona.Direccion</td>
+                <td style="text-align: center; vertical-align: middle;">@persona.Correo</td>
+                <td style="text-align: center; vertical-align: middle;">@persona.Edad</td>
+                <td style="text-align: center; vertical-align: middle;">@persona.HabilidadPrimaria</td>
+                <td style="text-align: center; vertical-align: middle;">@persona.HabilidadSecundaria</td>
+                <td style="text-align: center; vertical-align: middle;">@persona.idTipo</td>
+
+
+                <td style="text-align: center; vertical-align: middle;"><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Persona", new { IdPersona = persona.IdPersona})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"><i class="bi bi-eraser-fill" style="color: mintcream"></i></a></td>
+            </tr>
+        }
+
+    </tbody>
+

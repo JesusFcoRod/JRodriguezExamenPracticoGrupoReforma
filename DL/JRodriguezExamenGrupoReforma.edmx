@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="JRodriguezExamenGrupoReformaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Detalles_Facturas">
+          <Key>
+            <PropertyRef Name="IdDetalleFactura" />
+          </Key>
+          <Property Name="IdDetalleFactura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FolioFactura" Type="varchar" MaxLength="4" />
+          <Property Name="IdProducto" Type="int" />
+          <Property Name="CantidadProducto" Type="int" />
+        </EntityType>
+        <EntityType Name="Facturas">
+          <Key>
+            <PropertyRef Name="FolioFactura" />
+          </Key>
+          <Property Name="FolioFactura" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="IdProveedor" Type="int" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="250" />
+          <Property Name="direccion" Type="varchar" MaxLength="250" />
+          <Property Name="edad" Type="int" />
+          <Property Name="correo" Type="varchar" MaxLength="50" />
+          <Property Name="habilidadPrimaria" Type="varchar" MaxLength="250" />
+          <Property Name="habilidadSecundaria" Type="varchar" MaxLength="250" />
+          <Property Name="idTipo" Type="int" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="PrecioUnitario" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RazonSocial" Type="varchar" MaxLength="20" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <Association Name="FK__Detalles___Folio__1B0907CE">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="0..1" />
+          <End Role="Detalles_Facturas" Type="Self.Detalles_Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FolioFactura" />
+            </Principal>
+            <Dependent Role="Detalles_Facturas">
+              <PropertyRef Name="FolioFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detalles___IdPro__1BFD2C07">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="0..1" />
+          <End Role="Detalles_Facturas" Type="Self.Detalles_Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="Detalles_Facturas">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Facturas__IdProv__145C0A3F">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="PersonaAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Direccion" Type="varchar" Mode="In" />
+          <Parameter Name="Edad" Type="int" Mode="In" />
+          <Parameter Name="Correo" Type="varchar" Mode="In" />
+          <Parameter Name="HabilidadPrimaria" Type="varchar" Mode="In" />
+          <Parameter Name="HabilidadSecundaria" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="PersonaDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPersona" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PersonaGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="PersonaGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPersona" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PersonaUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPersona" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Direccion" Type="varchar" Mode="In" />
+          <Parameter Name="Edad" Type="int" Mode="In" />
+          <Parameter Name="Correo" Type="varchar" Mode="In" />
+          <Parameter Name="HabilidadPrimaria" Type="varchar" Mode="In" />
+          <Parameter Name="HabilidadSecundaria" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="JRodriguezExamenGrupoReformaModelStoreContainer">
+          <EntitySet Name="Detalles_Facturas" EntityType="Self.Detalles_Facturas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Detalles___Folio__1B0907CE" Association="Self.FK__Detalles___Folio__1B0907CE">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="Detalles_Facturas" EntitySet="Detalles_Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detalles___IdPro__1BFD2C07" Association="Self.FK__Detalles___IdPro__1BFD2C07">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Detalles_Facturas" EntitySet="Detalles_Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Facturas__IdProv__145C0A3F" Association="Self.FK__Facturas__IdProv__145C0A3F">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JRodriguezExamenGrupoReformaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Detalles_Facturas">
+          <Key>
+            <PropertyRef Name="IdDetalleFactura" />
+          </Key>
+          <Property Name="IdDetalleFactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FolioFactura" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="IdProducto" Type="Int32" />
+          <Property Name="CantidadProducto" Type="Int32" />
+          <NavigationProperty Name="Factura" Relationship="Self.FK__Detalles___Folio__1B0907CE" FromRole="Detalles_Facturas" ToRole="Facturas" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK__Detalles___IdPro__1BFD2C07" FromRole="Detalles_Facturas" ToRole="Productos" />
+        </EntityType>
+        <EntityType Name="Factura">
+          <Key>
+            <PropertyRef Name="FolioFactura" />
+          </Key>
+          <Property Name="FolioFactura" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="IdProveedor" Type="Int32" />
+          <NavigationProperty Name="Detalles_Facturas" Relationship="Self.FK__Detalles___Folio__1B0907CE" FromRole="Facturas" ToRole="Detalles_Facturas" />
+          <NavigationProperty Name="Proveedor" Relationship="Self.FK__Facturas__IdProv__145C0A3F" FromRole="Facturas" ToRole="Proveedor" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PrecioUnitario" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Detalles_Facturas" Relationship="Self.FK__Detalles___IdPro__1BFD2C07" FromRole="Productos" ToRole="Detalles_Facturas" />
+        </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RazonSocial" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Facturas" Relationship="Self.FK__Facturas__IdProv__145C0A3F" FromRole="Proveedor" ToRole="Facturas" />
+        </EntityType>
+        <Association Name="FK__Detalles___Folio__1B0907CE">
+          <End Role="Facturas" Type="Self.Factura" Multiplicity="0..1" />
+          <End Role="Detalles_Facturas" Type="Self.Detalles_Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="FolioFactura" />
+            </Principal>
+            <Dependent Role="Detalles_Facturas">
+              <PropertyRef Name="FolioFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detalles___IdPro__1BFD2C07">
+          <End Role="Productos" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Detalles_Facturas" Type="Self.Detalles_Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="Detalles_Facturas">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Facturas__IdProv__145C0A3F">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Factura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="JRodriguezExamenGrupoReformaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Detalles_Facturas" EntityType="Self.Detalles_Facturas" />
+          <EntitySet Name="Facturas" EntityType="Self.Factura" />
+          <EntitySet Name="Productos" EntityType="Self.Producto" />
+          <EntitySet Name="Proveedors" EntityType="Self.Proveedor" />
+          <AssociationSet Name="FK__Detalles___Folio__1B0907CE" Association="Self.FK__Detalles___Folio__1B0907CE">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="Detalles_Facturas" EntitySet="Detalles_Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detalles___IdPro__1BFD2C07" Association="Self.FK__Detalles___IdPro__1BFD2C07">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Detalles_Facturas" EntitySet="Detalles_Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Facturas__IdProv__145C0A3F" Association="Self.FK__Facturas__IdProv__145C0A3F">
+            <End Role="Proveedor" EntitySet="Proveedors" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <FunctionImport Name="PersonaAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+            <Parameter Name="Edad" Mode="In" Type="Int32" />
+            <Parameter Name="Correo" Mode="In" Type="String" />
+            <Parameter Name="HabilidadPrimaria" Mode="In" Type="String" />
+            <Parameter Name="HabilidadSecundaria" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PersonaGetAll" ReturnType="Collection(JRodriguezExamenGrupoReformaModel.PersonaGetAll_Result)" />
+          <EntitySet Name="Personas" EntityType="JRodriguezExamenGrupoReformaModel.Persona" />
+          <FunctionImport Name="PersonaDelete">
+            <Parameter Name="idPersona" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PersonaGetById" ReturnType="Collection(JRodriguezExamenGrupoReformaModel.PersonaGetById_Result)">
+            <Parameter Name="idPersona" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="PersonaUpdate">
+            <Parameter Name="idPersona" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+            <Parameter Name="Edad" Mode="In" Type="Int32" />
+            <Parameter Name="Correo" Mode="In" Type="String" />
+            <Parameter Name="HabilidadPrimaria" Mode="In" Type="String" />
+            <Parameter Name="HabilidadSecundaria" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="PersonaGetAll_Result">
+          <Property Type="Int32" Name="idPersona" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="direccion" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="edad" Nullable="true" />
+          <Property Type="String" Name="correo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="habilidadPrimaria" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="habilidadSecundaria" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="idTipo" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="idPersona" />
+          </Key>
+          <Property Name="idPersona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="edad" Type="Int32" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="habilidadPrimaria" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="habilidadSecundaria" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="idTipo" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="PersonaGetById_Result">
+          <Property Type="Int32" Name="idPersona" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="direccion" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="edad" Nullable="true" />
+          <Property Type="String" Name="correo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="habilidadPrimaria" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="habilidadSecundaria" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="idTipo" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JRodriguezExamenGrupoReformaModelStoreContainer" CdmEntityContainer="JRodriguezExamenGrupoReformaEntities">
+          <EntitySetMapping Name="Detalles_Facturas">
+            <EntityTypeMapping TypeName="JRodriguezExamenGrupoReformaModel.Detalles_Facturas">
+              <MappingFragment StoreEntitySet="Detalles_Facturas">
+                <ScalarProperty Name="IdDetalleFactura" ColumnName="IdDetalleFactura" />
+                <ScalarProperty Name="FolioFactura" ColumnName="FolioFactura" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="CantidadProducto" ColumnName="CantidadProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturas">
+            <EntityTypeMapping TypeName="JRodriguezExamenGrupoReformaModel.Factura">
+              <MappingFragment StoreEntitySet="Facturas">
+                <ScalarProperty Name="FolioFactura" ColumnName="FolioFactura" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="JRodriguezExamenGrupoReformaModel.Producto">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="PrecioUnitario" ColumnName="PrecioUnitario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proveedors">
+            <EntityTypeMapping TypeName="JRodriguezExamenGrupoReformaModel.Proveedor">
+              <MappingFragment StoreEntitySet="Proveedor">
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PersonaAdd" FunctionName="JRodriguezExamenGrupoReformaModel.Store.PersonaAdd" />
+          <FunctionImportMapping FunctionImportName="PersonaGetAll" FunctionName="JRodriguezExamenGrupoReformaModel.Store.PersonaGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JRodriguezExamenGrupoReformaModel.PersonaGetAll_Result">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="habilidadPrimaria" ColumnName="habilidadPrimaria" />
+                <ScalarProperty Name="habilidadSecundaria" ColumnName="habilidadSecundaria" />
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Personas">
+            <EntityTypeMapping TypeName="JRodriguezExamenGrupoReformaModel.Persona">
+              <MappingFragment StoreEntitySet="Persona">
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+                <ScalarProperty Name="habilidadSecundaria" ColumnName="habilidadSecundaria" />
+                <ScalarProperty Name="habilidadPrimaria" ColumnName="habilidadPrimaria" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PersonaDelete" FunctionName="JRodriguezExamenGrupoReformaModel.Store.PersonaDelete" />
+          <FunctionImportMapping FunctionImportName="PersonaGetById" FunctionName="JRodriguezExamenGrupoReformaModel.Store.PersonaGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="JRodriguezExamenGrupoReformaModel.PersonaGetById_Result">
+                <ScalarProperty Name="idPersona" ColumnName="idPersona" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="habilidadPrimaria" ColumnName="habilidadPrimaria" />
+                <ScalarProperty Name="habilidadSecundaria" ColumnName="habilidadSecundaria" />
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PersonaUpdate" FunctionName="JRodriguezExamenGrupoReformaModel.Store.PersonaUpdate" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
